@@ -51,7 +51,7 @@ exports.uploadImage = function(req, res) {
 		function (callback) {
 			/* Catch error messages from Kairos */
 			if (!result || !result.images)
-				return callback({error: result.Errors ? result.Errors[0].Message : "Unable to reach Kairos"});
+				return callback({error: result && result.Errors ? result.Errors[0].Message : "Unable to reach Kairos"});
 
 			/* Pictures with other than one face are not allowed */
 			if (result.images[0].faces && result.images[0].faces.length !== 1)
