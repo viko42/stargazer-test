@@ -1,0 +1,44 @@
+.upload-container {
+	padding-top: 125px;
+	text-align: center;
+	font-family: 'Raleway', Arial, sans-serif;
+}
+
+/* Button select image */
+.select {
+	background-color: #1d98eff7;
+}
+.select:hover {
+	background-color: #55b1f3;
+}
+.select:focus {
+	background-color: #1d98eff7;
+}
+
+/* Card Kairos */
+.card-kairos {
+	text-align: center;
+}
+.card-kairos .text {
+	margin-bottom: 20px;
+}
+.card-kairos .error {
+	color: #e61a1a;
+}
+.card-kairos .donut {
+	position: relative;
+	margin-top: 30px;
+}
+.card-kairos .loading {
+	text-align: center;
+}
+
+/* Card Information */
+.card-kairos-informations .info {
+	width: 20px;
+	margin-right: 5px;
+}
+.card-kairos-informations .text {
+	top: 29px;
+    position: absolute;
+}
