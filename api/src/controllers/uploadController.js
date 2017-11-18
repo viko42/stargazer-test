@@ -92,6 +92,9 @@ exports.uploadImage = function(req, res) {
 				if (err)
 					return callback({error: 'unable to save'});
 
+				if (!fs.existsSync("uploads"))
+					fs.mkdirSync("uploads");
+
 				if (!fs.existsSync("uploads/"+today))
 				    fs.mkdirSync("uploads/"+today);
 
