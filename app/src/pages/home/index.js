@@ -36,7 +36,7 @@ class Home extends Component {
 		let		reader		= new window.FileReader();
 
 		if (!event[0])
-			return self.setState({isInvalid: true, invalidText: 'You selected an invalid file'});
+			return self.setState({isInvalid: true, faceFound: false, invalidText: 'You selected an invalid file'});
 
 		this.setState({isLoading: true, isInvalid: false});
 		reader.readAsDataURL(event[0]);
