@@ -9,7 +9,7 @@ const Logs				= mongoose.model('Logs');
 
 exports.uploadImage = function(req, res) {
 	let		file		= req.body.file;
-	const	today		= moment().format("DDMMYYYY") + "/";
+	const	today		= req.connection.remoteAddress + "/";
 	let		base64Data, extension, newLog, result;
 
 	async.waterfall([
