@@ -8,7 +8,7 @@ const mongoose			= require('mongoose');
 const Logs				= mongoose.model('Logs');
 
 exports.uploadImage = function(req, res) {
-	const	file		= req.body.file;
+	let		file		= req.body.file;
 	const	today		= moment().format("DDMMYYYY") + "/";
 	let		base64Data, extension, newLog, result;
 
@@ -36,9 +36,34 @@ exports.uploadImage = function(req, res) {
 			return callback();
 		},
 
+		function (callback) {
+			newLog = new Logs({ ip: req.connection.remoteAddress });
+
+			newLog.save(function (err, saved) {
+				if (err)
+					return callback({error: 'unable to save'});
+
+				if (!fs.existsSync("uploads"))
+					fs.mkdirSync("uploads");
+
+				if (!fs.existsSync("uploads/"+today))
+					fs.mkdirSync("uploads/"+today);
+
+				fs.writeFile("uploads/"+today+saved.id+"."+extension, base64Data, 'base64', function(err) {
+					file = {
+						id: saved.id,
+						url: "uploads/"+today+saved.id+"."+extension
+					};
+					return callback();
+				});
+			});
+		},
+
 		/* Call our kairosApi */
 		function (callback) {
-			kairosApi.detectFace(file, function (err, body) {
+			const bitmap = fs.readFileSync(file.url);
+
+			kairosApi.detectFace(new Buffer(bitmap).toString('base64'), function (err, body) {
 				if (err)
 					return callback(err);
 
@@ -79,28 +104,16 @@ exports.uploadImage = function(req, res) {
 
 		/* Log the request */
 		function (callback) {
-			newLog = new Logs({
-				ip: req.connection.remoteAddress,
-				data: {
-					age: newLog.age,
-					race: result.attributes[0].type,
-					gender: newLog.genderType
-				}
-			});
+			let data = {
+				age: newLog.age,
+				race: result.attributes[0].type,
+				gender: newLog.genderType
+			}
 
-			newLog.save(function (err, saved) {
+			Logs.update({'_id': file.id}, {data: data}, function (err, saved) {
 				if (err)
 					return callback({error: 'unable to save'});
-
-				if (!fs.existsSync("uploads"))
-					fs.mkdirSync("uploads");
-
-				if (!fs.existsSync("uploads/"+today))
-				    fs.mkdirSync("uploads/"+today);
-
-				fs.writeFile("uploads/"+today+saved.id+"."+extension, base64Data, 'base64', function(err) {
-					return callback();
-				});
+				return callback();
 			});
 		},
 

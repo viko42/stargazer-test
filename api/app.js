@@ -7,7 +7,7 @@ const mongoose		= require('mongoose');
 const cors			= require('cors');
 
 const http			= require("http");
-
+const path			= require('path');
 const server		= http.createServer(app);
 
 mongoose.plugin(require('meanie-mongoose-to-json'));
@@ -38,7 +38,7 @@ app.use(function(req, res, next) {
 	next();
 });
 
-app.use(express.static('/uploads'));
+app.use("/uploads", express.static(path.join(__dirname, 'uploads')));
 
 app.use(bodyParser.json({limit: '30mb'}));
 app.use(bodyParser.urlencoded({limit: '30mb', extended: true}));

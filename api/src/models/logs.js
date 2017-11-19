@@ -5,11 +5,13 @@ const moment		= require('moment');
 const LogsSchema = new Schema({
 	ip: {
 		type: String,
-		required: false
+		required: false,
+		default: "0.0.0.0"
 	},
 	data: {
 		type: Object,
-		required: false
+		required: false,
+		default: {}
 	},
 	created_at: {
 		type: Date,
