@@ -21,9 +21,6 @@ cd api && npm install && npm start
 cd app && npm install && npm start
 ```
 
-### DEMO
-
-http://79.137.36.192:3000/#/
 
 ## Basic interface with select button
 
